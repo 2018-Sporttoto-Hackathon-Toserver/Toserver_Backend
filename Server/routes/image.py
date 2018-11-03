@@ -23,10 +23,6 @@ def image_check():
     if db_site != None:
         site = db_site.serialize
 
-        db_site.time = time
-
-        db.session.commit()
-
         return_data = {
             "count" : site["count"],
             "check" : site["check"],
