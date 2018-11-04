@@ -4,6 +4,8 @@ from Server.mysql import db, Site
 from datetime import datetime
 import os
 
+check = False
+
 app = Blueprint('image', __name__)
 
 @app.route('/', methods=['GET'])
@@ -14,39 +16,58 @@ def image_main():
 @app.route('/check', methods=['POST'])
 def image_check():
 
-    r_url = req.form['url']
+    # r_url = req.form['url']
+    #
+    # time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    #
+    # db_site = Site.query.filter_by(url=r_url).first()
+    #
+    # if db_site != None:
+    #     site = db_site.serialize
+    #
+    #     return_data = {
+    #         "count" : site["count"],
+    #         "check" : site["check"],
+    #         "time" : time
+    #     }
+    #
+    #     return jsonify(return_data), 200
+    #
+    # else:
+    #
+    #     state_data, count = utils.crawling(r_url)
+    #
+    #     site = Site(r_url, count, time, state_data)
+    #
+    #     db.session.add(site)
+    #     db.session.commit()
+    #
+    #     return_data = {
+    #         "check": state_data,
+    #         "count": count,
+    #         "time": time,
+    #     }
+    #
+    #     return jsonify(return_data)
 
-    time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-    db_site = Site.query.filter_by(url=r_url).first()
-
-    if db_site != None:
-        site = db_site.serialize
-
+    if check == False:
+        check = True
         return_data = {
-            "count" : site["count"],
-            "check" : site["check"],
-            "time" : time
+                "check": True,
+                "count": 18,
+                "time": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            }
+
+    else :
+        return_data = {
+            "check": False,
+            "count": 0,
+            "time": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         }
 
-        return jsonify(return_data), 200
+    return return_data
 
-    else:
 
-        state_data, count = utils.crawling(r_url)
-
-        site = Site(r_url, count, time, state_data)
-
-        db.session.add(site)
-        db.session.commit()
-
-        return_data = {
-            "check": state_data,
-            "count": count,
-            "time": time,
-        }
-
-        return jsonify(return_data)
 
 
 
