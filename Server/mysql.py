@@ -39,3 +39,6 @@ class Site(Base):
             'time' : self.time,
             'check' : self.check
         }
+
+    def serialize_list(self, items):
+        return [item.serialize for item in items]
